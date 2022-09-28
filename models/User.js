@@ -12,7 +12,12 @@ const userSchema = new Schema(
     thoughts: [{ type: Schema.Types.ObjectId, ref: "Thought" }],
     friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
-  { toJSON: { virtuals: true }, id: false }
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    id: false,
+  }
 );
 
 // bc friend length will change, we use a virtual

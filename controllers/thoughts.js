@@ -32,7 +32,7 @@ const thoughtController = {
       .then(({ _id }) => {
         return User.findOneAndUpdate(
           { _id: req.body.userId },
-          { $push: { thoughts: _id } },
+          { $addtoset: { thoughts: _id } },
           { new: true }
         );
       })
@@ -70,6 +70,25 @@ const thoughtController = {
         return res.status(400).json(err);
       });
   },
+
+  // POST to create a reaction stored in a single thought's reactions array field
+  createReaction(req, res) {
+    Thought.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: { thoughts: req.params.friendId } },
+      { runValidators: true, new: true }
+    )
+      .then(async (thought) => {
+        return res.json(thought);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(400).json(err);
+      });
+  },
+
+  // DELETE to pull and remove a reaction by the reaction's reactionId value
+  deleteReaction(req, res) {},
 };
 
 module.exports = thoughtController;

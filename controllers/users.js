@@ -1,4 +1,5 @@
 const { User, Thought } = require("../models");
+const ObjectId = require("mongodb").ObjectId;
 
 const userController = {
   //GET all users
@@ -64,13 +65,14 @@ const userController = {
         return res.status(400).json(err);
       });
   },
+  //We import the ObjectId() function from MongoDB
 
   // POST to add a new friend to a user's friend list
   addFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       // add to set allows us to prevent duplicates from being added
-      { $addtoset: { friends: req.params.friendId } },
+      { $push: { friends: req.params.friendId } },
       { new: true }
     )
       .then(async (user) => {
@@ -84,9 +86,10 @@ const userController = {
 
   // DELETE to remove a friend from a user's friend list
   deleteFriend(req, res) {
-    User.findOneAndDelete(
+    User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $pull: { friends: req.params.friendId } }
+      { $pull: { friends: req.params.friendId } },
+      { new: true }
     )
       .then(async (user) => {
         return res.json(user);
