@@ -5,6 +5,8 @@ const userController = {
   //GET all users
   getAllUsers(req, res) {
     User.find()
+      .populate("friends")
+      .populate("thoughts")
       .then(async (users) => {
         return res.json(users);
       })
@@ -72,7 +74,7 @@ const userController = {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       // add to set allows us to prevent duplicates from being added
-      { $push: { friends: req.params.friendId } },
+      { $addToSet: { friends: req.params.friendId } },
       { new: true }
     )
       .then(async (user) => {
