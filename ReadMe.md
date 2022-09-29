@@ -6,7 +6,7 @@ This back-end app is intended to empower all social-media companies to scale the
 
 While working on this, I learned the common file strucutre for creating NoSQL databases as well as how functions can be triggered when a route is hit. I also learned how virtuals can work in the real world.
 
-## Table of Contents (Optional)
+## Table of Contents
 
 If your README is long, add a table of contents to make it easy for users to
 find what they need.
